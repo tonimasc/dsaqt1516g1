@@ -5,6 +5,9 @@ import org.glassfish.jersey.linking.InjectLinks;
 /**
  * Created by marc on 16/12/15.
  */
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class Rent {
     @InjectLinks({})
     private String userid;

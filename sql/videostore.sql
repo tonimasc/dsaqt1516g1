@@ -1,7 +1,7 @@
-drop database if exists videostore;
-create database videostore;
+drop database if exists videostoredb;
+create database videostoredb;
 
-use videostore;
+use videostoredb;
 
 CREATE TABLE usuario (
 	id BINARY(16) NOT NULL,

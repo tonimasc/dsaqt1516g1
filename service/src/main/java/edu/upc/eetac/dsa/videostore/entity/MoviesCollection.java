@@ -8,6 +8,8 @@ import java.util.List;
  *
  * Coleccion de peliculas compradas y alquiladas.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class MoviesCollection {
     private List<Buys> bought = new ArrayList<>();
     private List<Rent> rented  = new ArrayList<>();

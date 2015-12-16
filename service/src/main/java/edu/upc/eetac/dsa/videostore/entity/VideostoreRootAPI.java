@@ -5,6 +5,8 @@ import org.glassfish.jersey.linking.InjectLinks;
 import javax.ws.rs.core.Link;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class VideostoreRootAPI {
     @InjectLinks({})
 
