@@ -1,4 +1,4 @@
-package DAO;
+package edu.upc.eetac.dsa.videostore.DAO;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

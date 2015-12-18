@@ -15,15 +15,15 @@ CREATE TABLE usuario (
 CREATE TABLE usuario_rol (
 	usuarioid BINARY(16) NOT NULL,
 	rol ENUM ('registrado', 'admin'),
-	FOREIGN KEY (usuarioid) REFERENCES usuario(id) on delete cascade,
-	PRIMARY KEY (usuarioid, rol)
+	PRIMARY KEY (usuarioid, rol),
+	FOREIGN KEY (usuarioid) REFERENCES usuario(id) on delete cascade
 );
 
 CREATE TABLE auth_tokens (
 	usuarioid BINARY(16) NOT NULL,
 	token BINARY(16) NOT NULL,
-	FOREIGN KEY (usuarioid) REFERENCES usuario(id) on delete cascade,
-	PRIMARY KEY (token)
+	PRIMARY KEY (token),
+	FOREIGN KEY (usuarioid) REFERENCES usuario(id) on delete cascade
 );
 
 CREATE TABLE pelicula (
@@ -53,7 +53,7 @@ CREATE TABLE compradas (
 
 CREATE TABLE usuarios_alquiler (
 	usuarioid BINARY(16) NOT NULL,
-	peliculaid BINARY(16) NOT NULL,
+	peliculaid BINARY(16) NOT NULL
 );
 
 CREATE TABLE alquiladas (

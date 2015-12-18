@@ -1,5 +1,6 @@
 package edu.upc.eetac.dsa.videostore.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import javax.ws.rs.core.Link;
