@@ -13,6 +13,13 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class MoviesCollection {
-    private List<Buys> bought = new ArrayList<>();
-    private List<Rent> rented  = new ArrayList<>();
+    private List<Movie> moviesList = new ArrayList<>();
+
+    public List<Movie> getMoviesList() {
+        return moviesList;
+    }
+
+    public void setMoviesList(List<Movie> moviesList) {
+        this.moviesList = moviesList;
+    }
 }

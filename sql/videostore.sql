@@ -30,7 +30,7 @@ CREATE TABLE pelicula (
 	id BINARY(16) NOT NULL,
 	titulo VARCHAR(32) NOT NULL,
 	genero VARCHAR(32) NOT NULL,
-	año YEAR NOT NULL,
+	ano INTEGER NOT NULL,
 	director VARCHAR(32) NOT NULL,
 	descripcion VARCHAR(300) NOT NULL,
 	votos INTEGER NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE pelicula (
 	tiempomaximovisualizacion INTEGER NOT NULL,
 	precioalquiler INTEGER NOT NULL,
 	preciocompra INTEGER NOT NULL,
-	fechainclusion TIMESTAMP NOT NULL,
+	fechainclusion TIMESTAMP NOT NULL default current_timestamp,
 	PRIMARY KEY (id)
 );
 
