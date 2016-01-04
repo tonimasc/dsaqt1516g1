@@ -19,8 +19,8 @@ public class Main {
 
     public final static String getBaseURI() {
         if (baseURI == null) {
-            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("beeter");
-            baseURI = prb.getString("beeter.context");
+            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("videostore");
+            baseURI = prb.getString("videostore.context");
         }
         return baseURI;
     }
@@ -30,7 +30,7 @@ public class Main {
      */
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
-        // in edu.upc.eetac.dsa.beeter package
+        // in edu.upc.eetac.dsa.videostore package
         final ResourceConfig rc = new VideostoreResourceConfig();
 
         // create and start a new instance of grizzly http server

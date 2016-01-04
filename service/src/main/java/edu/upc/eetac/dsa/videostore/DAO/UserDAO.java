@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public interface UserDAO {
     public User createUser(String loginid, String password, String email, int balance) throws SQLException, UserAlreadyExistsException;
 
-    public User updateProfile(String id, String loginid, String password, String email, int balance) throws SQLException;
+    public User updateProfile(String id, String loginid, String email, int balance) throws SQLException;
 
     public User getUserById(String id) throws SQLException;
 

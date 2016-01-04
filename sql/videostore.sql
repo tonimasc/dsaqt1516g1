@@ -6,7 +6,7 @@ use videostoredb;
 CREATE TABLE usuario (
 	id BINARY(16) NOT NULL,
 	loginid VARCHAR(16) NOT NULL UNIQUE,
-	password VARCHAR(16) NOT NULL,
+	password BINARY(16) NOT NULL,
 	email VARCHAR (255) NOT NULL,
 	saldo INTEGER NOT NULL,
 	PRIMARY KEY (id)

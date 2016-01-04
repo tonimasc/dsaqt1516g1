@@ -2,6 +2,7 @@ package edu.upc.eetac.dsa.videostore.DAO;
 
 
 import edu.upc.eetac.dsa.videostore.Auth.UserInfo;
+import edu.upc.eetac.dsa.videostore.db.Database;
 import edu.upc.eetac.dsa.videostore.entity.AuthToken;
 import edu.upc.eetac.dsa.videostore.entity.Role;
 
@@ -33,7 +34,7 @@ public class AuthTokenDAOImpl implements AuthTokenDAO {
                 stmt.setString(1, userInfo.getName());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
-                    String role = rs.getString("role");
+                    String role = rs.getString("rol");
                     userInfo.getRoles().add(Role.valueOf(role));
                 }
             }

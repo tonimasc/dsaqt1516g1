@@ -1,4 +1,4 @@
-package edu.upc.eetac.dsa.videostore.DAO;
+package edu.upc.eetac.dsa.videostore.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+
 
 /**
  * Created by marc on 16/12/15.

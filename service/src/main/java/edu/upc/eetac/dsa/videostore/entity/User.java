@@ -13,7 +13,6 @@ public class User {
     private List<Link> links;
     private String id;
     private String loginid;
-    private String password;
     private String email;
     private int balance;
 
@@ -58,13 +57,6 @@ public class User {
         this.balance = balance;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
 
 

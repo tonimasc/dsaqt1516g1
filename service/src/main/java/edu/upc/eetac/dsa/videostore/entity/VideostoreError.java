@@ -1,9 +1,12 @@
 package edu.upc.eetac.dsa.videostore.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.glassfish.jersey.linking.InjectLinks;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VideostoreError {
+    @InjectLinks({})
+
     private int status;
     private String reason;
 

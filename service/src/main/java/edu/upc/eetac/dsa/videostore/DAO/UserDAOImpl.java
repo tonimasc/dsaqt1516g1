@@ -1,5 +1,6 @@
 package edu.upc.eetac.dsa.videostore.DAO;
 
+import edu.upc.eetac.dsa.videostore.db.Database;
 import edu.upc.eetac.dsa.videostore.entity.User;
 
 import java.math.BigInteger;
@@ -60,7 +61,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User updateProfile(String id, String loginid, String password, String email, int balance) throws SQLException {
+    public User updateProfile(String id, String loginid, String email, int balance) throws SQLException {
         User user = null;
 
         Connection connection = null;
@@ -70,10 +71,9 @@ public class UserDAOImpl implements UserDAO {
 
             stmt = connection.prepareStatement(UserDAOQuery.UPDATE_USER);
             stmt.setString(1, loginid);
-            stmt.setString(2, password);
-            stmt.setString(3, email);
-            stmt.setInt(4, balance);
-            stmt.setString(5, id);
+            stmt.setString(2, email);
+            stmt.setInt(3, balance);
+            stmt.setString(4, id);
 
             int rows = stmt.executeUpdate();
             if (rows == 1)
@@ -112,7 +112,6 @@ public class UserDAOImpl implements UserDAO {
                 user.setId(rs.getString("id"));
                 user.setLoginid(rs.getString("loginid"));
                 user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
                 user.setBalance(rs.getInt("saldo"));
             }
         } catch (SQLException e) {
@@ -147,7 +146,6 @@ public class UserDAOImpl implements UserDAO {
                 user.setId(rs.getString("id"));
                 user.setLoginid(rs.getString("loginid"));
                 user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
                 user.setBalance(rs.getInt("saldo"));
             }
         } catch (SQLException e) {

@@ -1,6 +1,7 @@
 package edu.upc.eetac.dsa.videostore.DAO;
 
 
+import edu.upc.eetac.dsa.videostore.db.Database;
 import edu.upc.eetac.dsa.videostore.entity.Movie;
 
 import java.sql.*;
