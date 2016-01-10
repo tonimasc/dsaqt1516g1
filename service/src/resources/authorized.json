@@ -1,0 +1,25 @@
+[
+  {
+    "path": "myresource",
+    "methods": ["GET"]
+  },
+  {
+    "path": "users",
+    "methods": ["POST"]
+  },
+  {
+    "path": "login",
+    "methods": ["POST"]
+  },
+  {
+    "path": "(?i)movie/?([0-9a-f]{32})?",
+    "methods": ["GET"]
+  },
+  {
+    "path": "(?i)movie/search",
+    "methods": ["GET"]
+  }
+
+
+
+]
