@@ -89,6 +89,45 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public boolean updateBalance(String id, int saldonuevo) throws SQLException {
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            int saldo = 0;
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(UserDAOQuery.GET_BALANCE);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                saldo = rs.getInt("saldo");
+                saldo = saldonuevo + saldo;
+            }
+            connection.setAutoCommit(false);
+            stmt.close();
+
+            stmt = connection.prepareStatement(UserDAOQuery.UPDATE_BALANCE);
+            stmt.setInt(1, saldo);
+            stmt.setString(2, id);
+            int rows = stmt.executeUpdate();
+            connection.commit();
+            return (rows == 1);
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) {
+                connection.setAutoCommit(true);
+                connection.close();
+            }
+        }
+    }
+
+    @Override
     public User getUserById(String id) throws SQLException {
         // Modelo a devolver
         User user = null;

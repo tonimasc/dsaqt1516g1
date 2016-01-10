@@ -3,13 +3,14 @@ package edu.upc.eetac.dsa.videostore.DAO;
 
 import edu.upc.eetac.dsa.videostore.db.Database;
 import edu.upc.eetac.dsa.videostore.entity.Movie;
+import edu.upc.eetac.dsa.videostore.entity.MoviesCollection;
 
 import java.sql.*;
 
 public class MovieDAOImpl implements MovieDAO {
 
     @Override
-    public Movie createMovie(String title, String genre, String content, int year, String director, String description,
+    public Movie createMovie(String title, String genre, int year, String director, String description,
                              int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell)
             throws SQLException, MovieAlreadyExistsException {
         Connection connection = null;
@@ -27,7 +28,7 @@ public class MovieDAOImpl implements MovieDAO {
             stmt = connection.prepareStatement(MovieDAOQuery.CREATE_MOVIE);
             stmt.setString(1, id);
             stmt.setString(2, title);
-            stmt.setString(3, content);
+            stmt.setString(3, genre);
             stmt.setInt(4, year);
             stmt.setString(5, director);
             stmt.setString(6, description);
@@ -88,38 +89,35 @@ public class MovieDAOImpl implements MovieDAO {
         return movie;
     }
 
-    /**
     @Override
-    public MoviesCollection getMovies(long timestamp, boolean before) throws SQLException {
-        MoviesCollection stingCollection = new MoviesCollection();
-
+    public MoviesCollection getMoviesbyTITLE(String titulo) throws SQLException {
+        MoviesCollection moviesCollection = new MoviesCollection();
         Connection connection = null;
         PreparedStatement stmt = null;
+
         try {
             connection = Database.getConnection();
-
-            if (before)
-                stmt = connection.prepareStatement(MovieDAOQuery.GET_MOVIES);
-            else
-                stmt = connection.prepareStatement(MovieDAOQuery.GET_STINGS_AFTER);
-            stmt.setTimestamp(1, new Timestamp(timestamp));
+            stmt = connection.prepareStatement(MovieDAOQuery.GET_MOVIES_BY_TITLE);
+            stmt.setString(1, titulo);
 
             ResultSet rs = stmt.executeQuery();
-            boolean first = true;
+
             while (rs.next()) {
-                Sting sting = new Sting();
-                sting.setId(rs.getString("id"));
-                sting.setUserid(rs.getString("userid"));
-                sting.setCreator(rs.getString("fullname"));
-                sting.setSubject(rs.getString("subject"));
-                sting.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
-                sting.setLastModified(rs.getTimestamp("last_modified").getTime());
-                if (first) {
-                    stingCollection.setNewestTimestamp(sting.getLastModified());
-                    first = false;
-                }
-                stingCollection.setOldestTimestamp(sting.getLastModified());
-                stingCollection.getStings().add(sting);
+                Movie movie = new Movie();
+                movie.setId(rs.getString("id"));
+                movie.setTitle(rs.getString("titulo"));
+                movie.setGenre(rs.getString("genero"));
+                movie.setYear(rs.getInt("ano"));
+                movie.setDirector(rs.getString("director"));
+                movie.setDescription(rs.getString("descripcion"));
+                movie.setVotes(rs.getInt("votos"));
+                movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
+                movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
+                movie.setRentcost(rs.getInt("precioalquiler"));
+                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
+
+                moviesCollection.getMoviesList().add(movie);
             }
         } catch (SQLException e) {
             throw e;
@@ -128,9 +126,165 @@ public class MovieDAOImpl implements MovieDAO {
             if (connection != null) connection.close();
         }
 
-        return stingCollection;
+        return moviesCollection;
     }
-     */
+
+    @Override
+    public MoviesCollection getMoviesbyYEAR(int year) throws SQLException {
+        MoviesCollection moviesCollection = new MoviesCollection();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(MovieDAOQuery.GET_MOVIES_BY_YEAR);
+            stmt.setInt(1, year);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getString("id"));
+                movie.setTitle(rs.getString("titulo"));
+                movie.setGenre(rs.getString("genero"));
+                movie.setYear(rs.getInt("ano"));
+                movie.setDirector(rs.getString("director"));
+                movie.setDescription(rs.getString("descripcion"));
+                movie.setVotes(rs.getInt("votos"));
+                movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
+                movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
+                movie.setRentcost(rs.getInt("precioalquiler"));
+                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
+
+                moviesCollection.getMoviesList().add(movie);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return moviesCollection;
+    }
+
+    @Override
+    public MoviesCollection getMoviesbyDIRECTOR(String director) throws SQLException {
+        MoviesCollection moviesCollection = new MoviesCollection();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(MovieDAOQuery.GET_MOVIES_BY_DIRECTOR);
+            stmt.setString(1, director);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getString("id"));
+                movie.setTitle(rs.getString("titulo"));
+                movie.setGenre(rs.getString("genero"));
+                movie.setYear(rs.getInt("ano"));
+                movie.setDirector(rs.getString("director"));
+                movie.setDescription(rs.getString("descripcion"));
+                movie.setVotes(rs.getInt("votos"));
+                movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
+                movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
+                movie.setRentcost(rs.getInt("precioalquiler"));
+                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
+
+                moviesCollection.getMoviesList().add(movie);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return moviesCollection;
+    }
+
+    @Override
+    public MoviesCollection getMoviesbyLASTADDED() throws SQLException {
+        MoviesCollection moviesCollection = new MoviesCollection();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(MovieDAOQuery.GET_MOVIES_BY_LASTADDED);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getString("id"));
+                movie.setTitle(rs.getString("titulo"));
+                movie.setGenre(rs.getString("genero"));
+                movie.setYear(rs.getInt("ano"));
+                movie.setDirector(rs.getString("director"));
+                movie.setDescription(rs.getString("descripcion"));
+                movie.setVotes(rs.getInt("votos"));
+                movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
+                movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
+                movie.setRentcost(rs.getInt("precioalquiler"));
+                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
+
+                moviesCollection.getMoviesList().add(movie);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return moviesCollection;
+    }
+
+    @Override
+    public MoviesCollection getMoviesbyVOTES() throws SQLException {
+        MoviesCollection moviesCollection = new MoviesCollection();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(MovieDAOQuery.GET_MOVIES_BY_VOTES);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getString("id"));
+                movie.setTitle(rs.getString("titulo"));
+                movie.setGenre(rs.getString("genero"));
+                movie.setYear(rs.getInt("ano"));
+                movie.setDirector(rs.getString("director"));
+                movie.setDescription(rs.getString("descripcion"));
+                movie.setVotes(rs.getInt("votos"));
+                movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
+                movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
+                movie.setRentcost(rs.getInt("precioalquiler"));
+                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
+
+                moviesCollection.getMoviesList().add(movie);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return moviesCollection;
+    }
+
     @Override
     public Movie updateMovie(String id, String title, String genre, int year, String director, String description,
                              int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell) throws SQLException {
@@ -141,7 +295,8 @@ public class MovieDAOImpl implements MovieDAO {
         try {
             connection = Database.getConnection();
 
-            stmt = connection.prepareStatement(MovieDAOQuery.UPDATE_STING);
+            stmt = connection.prepareStatement(MovieDAOQuery.UPDATE_MOVIE);
+
             stmt.setString(1, title);
             stmt.setString(2, genre);
             stmt.setInt(3, year);
@@ -152,6 +307,7 @@ public class MovieDAOImpl implements MovieDAO {
             stmt.setInt(8, temmaxvisual);
             stmt.setInt(9, pricerent);
             stmt.setInt(10, pricesell);
+            stmt.setString(11, id);
             stmt.executeUpdate();
 
             int rows = stmt.executeUpdate();
@@ -174,7 +330,7 @@ public class MovieDAOImpl implements MovieDAO {
         try {
             connection = Database.getConnection();
 
-            stmt = connection.prepareStatement(MovieDAOQuery.DELETE_STING);
+            stmt = connection.prepareStatement(MovieDAOQuery.DELETE_MOVIE);
             stmt.setString(1, id);
 
             int rows = stmt.executeUpdate();

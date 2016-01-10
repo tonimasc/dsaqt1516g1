@@ -51,6 +51,13 @@ CREATE TABLE compradas (
 	FOREIGN KEY (peliculaid) REFERENCES pelicula(id) ON DELETE CASCADE
 );
 
+CREATE TABLE votos (
+	idpeli BINARY(16) NOT NULL,
+	usuarioid BINARY(16) NOT NULL,
+	FOREIGN KEY (idpeli) REFERENCES pelicula(id) ON DELETE CASCADE,
+	FOREIGN KEY (usuarioid) REFERENCES usuario(id) ON DELETE CASCADE
+);
+
 CREATE TABLE usuarios_alquiler (
 	usuarioid BINARY(16) NOT NULL,
 	peliculaid BINARY(16) NOT NULL
@@ -64,3 +71,8 @@ CREATE TABLE alquiladas (
 	FOREIGN KEY (usuarioid) REFERENCES usuario(id) ON DELETE CASCADE,
 	FOREIGN KEY (peliculaid) REFERENCES pelicula(id) ON DELETE CASCADE
 );
+
+insert into usuario (id, loginid, password, email, saldo) values (UNHEX(0), 'admin', UNHEX(MD5('videostore')), 'admin@videostore.com', 288);
+
+insert into usuario_rol (usuarioid, rol) values (UNHEX('0'), 'admin');
+

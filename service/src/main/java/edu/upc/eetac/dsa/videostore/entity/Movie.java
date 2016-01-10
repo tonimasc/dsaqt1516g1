@@ -22,8 +22,6 @@ public class Movie {
     private int rentcost;
     private int buycost;
     private long timeadded;
-    private Integer balance;
-    private String password;
 
     public List<Link> getLinks() {
         return links;
@@ -129,19 +127,4 @@ public class Movie {
         this.timeadded = timeadded;
     }
 
-    public Integer getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Integer balance) {
-        this.balance = balance;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

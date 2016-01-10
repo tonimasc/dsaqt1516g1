@@ -27,7 +27,7 @@ public class AuthRequestFilter implements ContainerRequestFilter {
             return;
         final boolean secure = requestContext.getUriInfo().getAbsolutePath().getScheme().equals("https");
 
-        String token = requestContext.getHeaderString("X-edu.upc.eetac.dsa.videostore.Auth-Token");
+        String token = requestContext.getHeaderString("X-Auth-Token");
         if (token == null)
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
 
@@ -55,7 +55,7 @@ public class AuthRequestFilter implements ContainerRequestFilter {
 
                 @Override
                 public String getAuthenticationScheme() {
-                    return "X-edu.upc.eetac.dsa.videostore.Auth-Token";
+                    return "X-Auth-Token";
                 }
             });
         } catch (SQLException e) {
