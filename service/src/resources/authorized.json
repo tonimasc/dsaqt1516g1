@@ -8,11 +8,18 @@
     "methods": ["POST"]
   },
   {
-    "path": "(?i)users/([0-9a-f]{32})?",
+    "path": "login",
+    "methods": ["POST"]
+  },
+  {
+    "path": "(?i)movie/?([0-9a-f]{32})?",
     "methods": ["GET"]
   },
   {
-    "path": "login",
-    "methods": ["POST"]
+    "path": "(?i)movie/search",
+    "methods": ["GET"]
   }
+
+
+
 ]

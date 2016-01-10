@@ -7,6 +7,7 @@ import edu.upc.eetac.dsa.videostore.DAO.UserDAO;
 import edu.upc.eetac.dsa.videostore.DAO.UserDAOImpl;
 import edu.upc.eetac.dsa.videostore.entity.AuthToken;
 import edu.upc.eetac.dsa.videostore.entity.User;
+import org.glassfish.jersey.linking.InjectLink;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -48,7 +49,19 @@ public class UserResource {
     public User getUser(@PathParam("id") String id) {
         User user = null;
         try {
-            user = (new UserDAOImpl()).getUserById(id);
+            String userid = securityContext.getUserPrincipal().getName();
+            boolean admin = securityContext.isUserInRole("admin");
+            if (admin)
+            {
+                user = (new UserDAOImpl()).getUserById(id);
+            }
+            else if(userid.equals(id))
+            {
+                user = (new UserDAOImpl()).getUserById(id);
+            }
+            else
+            throw new ForbiddenException("operation not allowed");
+
         } catch (SQLException e) {
             throw new InternalServerErrorException(e.getMessage());
         }
@@ -68,14 +81,24 @@ public class UserResource {
             throw new BadRequestException("path parameter id and entity parameter id doesn't match");
 
         String userid = securityContext.getUserPrincipal().getName();
-        if(!userid.equals(id))
-            throw new ForbiddenException("operation not allowed");
+        boolean admin = securityContext.isUserInRole("admin");
 
+        try{
         UserDAO userDAO = new UserDAOImpl();
-        try {
-           user = userDAO.updateProfile(userid, user.getLoginid(), user.getEmail(), user.getBalance());
+        if (admin)
+        {
+            user = userDAO.updateProfile(userid, user.getLoginid(), user.getEmail(), user.getBalance());
             if(user == null)
                 throw new NotFoundException("User with id = "+id+" doesn't exist");
+        }
+        else if(userid.equals(id))
+        {
+            user = userDAO.updateProfile(userid, user.getLoginid(), user.getEmail(), user.getBalance());
+            if(user == null)
+                throw new NotFoundException("User with id = "+id+" doesn't exist");
+        }
+        else
+            throw new ForbiddenException("operation not allowed");
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
@@ -85,16 +108,60 @@ public class UserResource {
     @Path("/{id}")
     @DELETE
     public void deleteUser(@PathParam("id") String id){
-        String userid = securityContext.getUserPrincipal().getName();
-        if(!userid.equals(id))
-            throw new ForbiddenException("operation not allowed");
         UserDAO userDAO = new UserDAOImpl();
         try {
-            if(!userDAO.deleteUser(id))
-                throw new NotFoundException("User with id = "+id+" doesn't exist");
+            String userid = securityContext.getUserPrincipal().getName();
+            boolean admin = securityContext.isUserInRole("admin");
+            if (admin)
+            {
+                if(!userDAO.deleteUser(id))
+                    throw new NotFoundException("User with id = "+id+" doesn't exist");;
+            }
+            else if(userid.equals(id))
+            {
+                if(!userDAO.deleteUser(id))
+                    throw new NotFoundException("User with id = "+id+" doesn't exist");
+            }
+            else
+                throw new ForbiddenException("operation not allowed");
+
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
+    }
+    @Path("/saldo")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(VideostoreMediaType.VIDEOSTORE_USER)
+    public User insertBalance(@FormParam("id") String id, @FormParam("valor") int saldoañadido){
+        UserDAO userDAO = new UserDAOImpl();
+        User user = null;
+
+        if(id == null || saldoañadido == 0)
+            throw new BadRequestException("all parameters are mandatory");
+
+        try {
+            String userid = securityContext.getUserPrincipal().getName();
+            boolean admin = securityContext.isUserInRole("admin");
+            if (admin)
+            {
+                if(!userDAO.updateBalance(id,saldoañadido))
+                    throw new NotFoundException("User with id = "+id+" doesn't exist");
+                user = (new UserDAOImpl()).getUserById(id);
+            }
+            else if(userid.equals(id))
+            {
+                if(!userDAO.updateBalance(id,saldoañadido))
+                    throw new NotFoundException("User with id = "+id+" doesn't exist");
+                user = (new UserDAOImpl()).getUserById(id);
+            }
+            else
+                throw new ForbiddenException("operation not allowed");
+
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return user;
     }
 
 }

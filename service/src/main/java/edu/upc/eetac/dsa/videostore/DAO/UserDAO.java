@@ -16,4 +16,6 @@ public interface UserDAO {
     public boolean deleteUser(String id) throws SQLException;
 
     public boolean checkPassword(String id, String password) throws SQLException;
+
+    public boolean updateBalance(String id, int saldonuevo) throws SQLException;
 }
