@@ -18,4 +18,6 @@ public interface UserDAO {
     public boolean checkPassword(String id, String password) throws SQLException;
 
     public boolean updateBalance(String id, int saldonuevo) throws SQLException;
+
+    public boolean checkBalance(String id) throws SQLException;
 }

@@ -7,4 +7,7 @@ public interface VideostoreMediaType {
     public final static String VIDEOSTORE_MOVIES_COLLECTION = "application/vnd.dsa.videostore.movies.collection+json";
     public final static String VIDEOSTORE_ROOT = "application/vnd.dsa.videostore.root+json";
     public final static String VIDEOSTORE_ERROR = "application/vnd.dsa.videostore.error+json";
+    public final static String VIDEOSTORE_BUY = "application/vnd.dsa.videostore.buy+json";
+    public final static String VIDEOSTORE_RENT = "application/vnd.dsa.videostore.rent+json";
+    public final static String VIDEOSTORE_MOVIES_USER = "application/vnd.dsa.videostore.moviesuser+json";
 }

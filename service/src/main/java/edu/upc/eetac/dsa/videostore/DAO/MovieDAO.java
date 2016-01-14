@@ -15,6 +15,7 @@ public interface MovieDAO {
     public MoviesCollection getMoviesbyDIRECTOR(String director) throws SQLException;
     public MoviesCollection getMoviesbyLASTADDED() throws SQLException;
     public MoviesCollection getMoviesbyVOTES() throws SQLException;
+    public MoviesCollection getMoviesbyDEST() throws SQLException;
     public Movie updateMovie(String id, String title, String genre, int year, String director, String description,
                              int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell) throws SQLException;
     public boolean deleteMovie(String id) throws SQLException;

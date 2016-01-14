@@ -5,7 +5,6 @@ import edu.upc.eetac.dsa.videostore.DAO.*;
 import edu.upc.eetac.dsa.videostore.entity.Movie;
 import edu.upc.eetac.dsa.videostore.entity.MoviesCollection;
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -105,6 +104,15 @@ public class MovieResource {
                     throw new InternalServerErrorException();
                 }
                 break;
+            case "destacadas":
+                try {
+                    mCollection = mDAO.getMoviesbyDEST();
+                }
+                catch(SQLException e)
+                {
+                    throw new InternalServerErrorException();
+                }
+                break;
         }
 
         return mCollection;
@@ -131,20 +139,21 @@ public class MovieResource {
     @PUT
     @Consumes(VideostoreMediaType.VIDEOSTORE_MOVIE)
     @Produces(VideostoreMediaType.VIDEOSTORE_MOVIE)
-    public Movie updateMovie(@PathParam("id") String id, Movie movie) {
-        if (movie == null)
+    public Movie updateMovie(@PathParam("id") String id, Movie movies) {
+        if (movies == null)
             throw new BadRequestException("entity is null");
-        if (!id.equals(movie.getId()))
+        if (!id.equals(movies.getId()))
             throw new BadRequestException("path parameter id and entity parameter id doesn't match");
 
         boolean admin = securityContext.isUserInRole("admin");
         if(!admin)
             throw new ForbiddenException("operation not allowed");
         MovieDAO movieDAO = new MovieDAOImpl();
+        Movie movie = null;
         try {
-            movie = movieDAO.updateMovie(id, movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getDirector(),
-                    movie.getDescription(), movie.getVotes(), movie.getNummaxdownloads(), movie.getMaxtimeshow(),
-                    movie.getRentcost(), movie.getBuycost());
+            movie = movieDAO.updateMovie(id, movies.getTitle(), movies.getGenre(), movies.getYear(), movies.getDirector(),
+                    movies.getDescription(), movies.getVotes(), movies.getNummaxdownloads(), movies.getMaxtimeshow(),
+                    movies.getRentcost(), movies.getBuycost());
             if (movie == null)
                 throw new NotFoundException("Movie with id = " + id + " doesn't exist");
         } catch (SQLException e) {

@@ -1,6 +1,8 @@
 drop database if exists videostoredb;
 create database videostoredb;
 
+SET GLOBAL event_scheduler = ON;
+
 use videostoredb;
 
 CREATE TABLE usuario (
@@ -45,7 +47,7 @@ CREATE TABLE pelicula (
 CREATE TABLE compradas (
 	usuarioid BINARY(16) NOT NULL,
 	peliculaid BINARY(16) NOT NULL,
-	fechacompra TIMESTAMP NOT NULL,
+	fechacompra TIMESTAMP NOT NULL default current_timestamp,
 	numdescargas INTEGER NOT NULL,
 	FOREIGN KEY (usuarioid) REFERENCES usuario(id) ON DELETE CASCADE,
 	FOREIGN KEY (peliculaid) REFERENCES pelicula(id) ON DELETE CASCADE
@@ -58,21 +60,21 @@ CREATE TABLE votos (
 	FOREIGN KEY (usuarioid) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
-CREATE TABLE usuarios_alquiler (
-	usuarioid BINARY(16) NOT NULL,
-	peliculaid BINARY(16) NOT NULL
-);
-
 CREATE TABLE alquiladas (
 	usuarioid BINARY(16) NOT NULL,
 	peliculaid BINARY(16) NOT NULL,
-	fechaalquiler TIMESTAMP NOT NULL,
-	numvisionadas INTEGER NOT NULL,
+	fechacompra TIMESTAMP NOT NULL default current_timestamp,
+	horasrestantes INTEGER NOT NULL,
 	FOREIGN KEY (usuarioid) REFERENCES usuario(id) ON DELETE CASCADE,
 	FOREIGN KEY (peliculaid) REFERENCES pelicula(id) ON DELETE CASCADE
 );
 
-insert into usuario (id, loginid, password, email, saldo) values (UNHEX(0), 'admin', UNHEX(MD5('videostore')), 'admin@videostore.com', 288);
 
+
+CREATE EVENT e_hora_alquiler ON SCHEDULE EVERY 1 HOUR DO UPDATE videostoredb.alquiladas SET horasrestantes = horasrestantes - 1;
+CREATE EVENT e_hora_alquiler_eliminación ON SCHEDULE EVERY 30 MINUTE DO DELETE FROM videostoredb.alquiladas WHERE horasrestantes < 0;
+CREATE EVENT e_hora_compras_eliminación ON SCHEDULE EVERY 10 MINUTE DO DELETE FROM videostoredb.compradas WHERE numdescargas < 0;
+
+insert into usuario (id, loginid, password, email, saldo) values (UNHEX(0), 'admin', UNHEX(MD5('videostore')), 'admin@videostore.com', 288);
 insert into usuario_rol (usuarioid, rol) values (UNHEX('0'), 'admin');
 

@@ -3,10 +3,14 @@ package edu.upc.eetac.dsa.videostore.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.glassfish.jersey.linking.InjectLinks;
 
+import javax.ws.rs.core.Link;
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class Buys {
     @InjectLinks({})
+    private List<Link> links;
     private String userid;
     private String movieid;
     private long datebuy;
@@ -42,6 +46,14 @@ public class Buys {
 
     public void setDowmloadedtimes(int dowmloadedtimes) {
         this.dowmloadedtimes = dowmloadedtimes;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }
 

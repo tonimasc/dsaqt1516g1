@@ -247,4 +247,34 @@ public class UserDAOImpl implements UserDAO {
             if (connection != null) connection.close();
         }
     }
+
+    public boolean checkBalance(String id) throws SQLException {
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            int saldo = 0;
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(UserDAOQuery.GET_BALANCE);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                saldo = rs.getInt("saldo");
+            }
+            if (saldo > 0)
+                return true;
+            else
+            return false;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

@@ -3,6 +3,7 @@ package edu.upc.eetac.dsa.videostore.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.glassfish.jersey.linking.InjectLinks;
 
+import javax.ws.rs.core.Link;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class MoviesCollection {
     @InjectLinks({})
-
+    private List<Link> links;
     private List<Movie> moviesList = new ArrayList<>();
 
     public List<Movie> getMoviesList() {
@@ -24,5 +25,13 @@ public class MoviesCollection {
 
     public void setMoviesList(List<Movie> moviesList) {
         this.moviesList = moviesList;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }

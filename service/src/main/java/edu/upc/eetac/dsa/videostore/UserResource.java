@@ -1,11 +1,9 @@
 package edu.upc.eetac.dsa.videostore;
 
 
-import edu.upc.eetac.dsa.videostore.DAO.AuthTokenDAOImpl;
-import edu.upc.eetac.dsa.videostore.DAO.UserAlreadyExistsException;
-import edu.upc.eetac.dsa.videostore.DAO.UserDAO;
-import edu.upc.eetac.dsa.videostore.DAO.UserDAOImpl;
+import edu.upc.eetac.dsa.videostore.DAO.*;
 import edu.upc.eetac.dsa.videostore.entity.AuthToken;
+import edu.upc.eetac.dsa.videostore.entity.MoviesUser;
 import edu.upc.eetac.dsa.videostore.entity.User;
 import org.glassfish.jersey.linking.InjectLink;
 
@@ -162,6 +160,34 @@ public class UserResource {
             throw new InternalServerErrorException();
         }
         return user;
+    }
+
+    @Path("{id}/movies")
+    @GET
+    @Produces(VideostoreMediaType.VIDEOSTORE_MOVIES_USER)
+    public MoviesUser getMovies (@PathParam("id") String id) {
+        MoviesUser moviesUser = null;
+        OperationDAO operationDAO = new OperationDAOImpl();
+        try {
+            String userid = securityContext.getUserPrincipal().getName();
+            boolean admin = securityContext.isUserInRole("admin");
+            if (admin)
+            {
+                moviesUser = operationDAO.getOperationbyID_Collection(id);
+            }
+            else if(userid.equals(id))
+            {
+                moviesUser = operationDAO.getOperationbyID_Collection(id);
+            }
+            else
+                throw new ForbiddenException("operation not allowed");
+
+        } catch (SQLException e) {
+            throw new InternalServerErrorException(e.getMessage());
+        }
+        if(moviesUser == null)
+            throw new NotFoundException("Movies doesn't exist");
+        return moviesUser;
     }
 
 }
