@@ -2,8 +2,10 @@ package edu.upc.eetac.dsa.videostore;
 
 
 import edu.upc.eetac.dsa.videostore.DAO.*;
+import edu.upc.eetac.dsa.videostore.entity.Buys;
 import edu.upc.eetac.dsa.videostore.entity.Movie;
 import edu.upc.eetac.dsa.videostore.entity.MoviesCollection;
+import edu.upc.eetac.dsa.videostore.entity.Resources;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -134,6 +136,61 @@ public class MovieResource {
             throw new InternalServerErrorException();
         }
         return movie;
+    }
+
+    @Path("/compra/{idusuario}/{idmovie}")
+    @GET
+    @Produces(VideostoreMediaType.VIDEOSTORE_MOVIE)
+    public Resources getMovieResourceBuy(@PathParam("idusuario") String iduser, @PathParam("idmovie") String idmovie, @Context Request request) {
+        OperationDAO operationDAO = new OperationDAOImpl();
+        ResourcesDAO resourcesDAO = new ResourcesDAOImpl();
+        Resources resources;
+        Buys buys = new Buys();
+
+        String userid = securityContext.getUserPrincipal().getName();
+        if(!userid.equals(iduser))
+            throw new ForbiddenException("operation not allowed");
+
+        try {
+            boolean comprado = operationDAO.alreadyBuy(iduser,idmovie);
+            if (comprado)
+            {
+                resources = resourcesDAO.getResource(idmovie);
+                buys = operationDAO.getBuyByIDmovieandUser(iduser,idmovie);
+                int restante = buys.getDowmloadedtimes() - 1;
+                operationDAO.updateBuy(buys.getUserid(), buys.getMovieid(), restante);
+            }
+            else
+                throw new ForbiddenException("operation not allowed");
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return resources;
+    }
+    @Path("/alquiler/{idusuario}/{idmovie}")
+    @GET
+    @Produces(VideostoreMediaType.VIDEOSTORE_MOVIE)
+    public Resources getMovieResourceRent(@PathParam("idusuario") String iduser, @PathParam("idmovie") String idmovie, @Context Request request) {
+        OperationDAO operationDAO = new OperationDAOImpl();
+        ResourcesDAO resourcesDAO = new ResourcesDAOImpl();
+        Resources resources;
+
+        String userid = securityContext.getUserPrincipal().getName();
+        if(!userid.equals(iduser))
+            throw new ForbiddenException("operation not allowed");
+
+        try {
+            boolean alquilado = operationDAO.alreadyRent(iduser,idmovie);
+            if (alquilado)
+            {
+                resources = resourcesDAO.getResource(idmovie);
+            }
+            else
+                throw new ForbiddenException("operation not allowed");
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return resources;
     }
 
     @Path("/{id}")

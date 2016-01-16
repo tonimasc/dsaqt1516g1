@@ -15,7 +15,6 @@ public class Resources {
     private List<Link> links;
     private String idmovie;
     private String resourcesmovie;
-    private String resourcescover;
 
     public List<Link> getLinks() {
         return links;
@@ -39,13 +38,5 @@ public class Resources {
 
     public void setResourcesmovie(String resourcesmovie) {
         this.resourcesmovie = resourcesmovie;
-    }
-
-    public String getResourcescover() {
-        return resourcescover;
-    }
-
-    public void setResourcescover(String resourcescover) {
-        this.resourcescover = resourcescover;
     }
 }

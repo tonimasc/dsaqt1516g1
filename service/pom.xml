@@ -6,7 +6,7 @@
     <groupId>edu.upc.eetac.dsa.videostore</groupId>
     <artifactId>VideoStore</artifactId>
     <packaging>jar</packaging>
-    <version>0.3</version>
+    <version>0.5</version>
     <name>VideoStore</name>
 
     <dependencyManagement>

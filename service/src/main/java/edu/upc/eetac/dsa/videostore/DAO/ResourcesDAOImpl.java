@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class ResourcesDAOImpl implements ResourcesDAO {
     @Override
-    public Resources createResource(String peliculaid, String recursopeli, String recursoportada) throws SQLException, ResourcesAlreadyExistsException{
+    public Resources createResource(String peliculaid, String recursopeli) throws SQLException, ResourcesAlreadyExistsException{
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -20,8 +20,7 @@ public class ResourcesDAOImpl implements ResourcesDAO {
             stmt = connection.prepareStatement(ResourcesDAOQuery.POST_RES);
             stmt.setString(1, peliculaid);
             stmt.setString(2, recursopeli);
-            stmt.setString(3, recursoportada);
-            stmt.executeQuery();
+            stmt.executeUpdate();
 
         } catch (SQLException e) {
             throw e;
@@ -34,7 +33,7 @@ public class ResourcesDAOImpl implements ResourcesDAO {
         return getResource(peliculaid);
     }
     @Override
-    public Resources updateResource(String peliculaid, String recursopeli, String recursoportada) throws SQLException{
+    public Resources updateResource(String peliculaid, String recursopeli) throws SQLException{
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -43,8 +42,7 @@ public class ResourcesDAOImpl implements ResourcesDAO {
             stmt = connection.prepareStatement(ResourcesDAOQuery.UPDATE_RES);
 
             stmt.setString(1, recursopeli);
-            stmt.setString(2, recursoportada);
-            stmt.setString(3, peliculaid);
+            stmt.setString(2, peliculaid);
             stmt.executeUpdate();
 
             int rows = stmt.executeUpdate();
@@ -73,7 +71,6 @@ public class ResourcesDAOImpl implements ResourcesDAO {
             if (rs.next()) {
                 resources.setIdmovie(rs.getString("peliculaid"));
                 resources.setResourcesmovie(rs.getString("recursopeli"));
-                resources.setResourcescover(rs.getString("recursoportada"));
 
             }
         } catch (SQLException e) {
@@ -85,7 +82,7 @@ public class ResourcesDAOImpl implements ResourcesDAO {
         return resources;
     }
     @Override
-    public boolean deleteUser(String peliculaid) throws SQLException{
+    public boolean deleteResource(String peliculaid) throws SQLException{
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -103,7 +100,5 @@ public class ResourcesDAOImpl implements ResourcesDAO {
             if (connection != null) connection.close();
         }
     }
-
-
 }
 

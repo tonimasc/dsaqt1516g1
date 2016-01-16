@@ -16,6 +16,8 @@
 		"57697ff5-1152-0070-d4e4-d216840551f2",
 		"b7dd8155-031b-db2f-090c-677574c39a40",
 		"61ad504c-6387-c419-341f-15450ffd1290",
+		"8a2189f3-de6a-b37f-17c2-72be482d70e7",
+		"a93f1bce-7514-ce3e-b2d9-67fb810e649f",
 		"7b72589c-dcfe-8184-fb84-4e5945708bae",
 		"4d8d0b84-200e-9d2f-6d03-d488a06df74e",
 		"dfefbd48-428b-cdcd-8e64-bf967da0ef75",
@@ -25,7 +27,10 @@
 		"bf56bda0-6f63-22b5-866b-0d86988fab2a",
 		"54799006-9dd1-1d6d-9e41-ce06561d2724",
 		"49b40a4b-0281-5c43-f77a-cbcde42b048b",
-		"d9cf6bcd-9c02-b284-f7a3-2b263275b825"
+		"d9cf6bcd-9c02-b284-f7a3-2b263275b825",
+		"4319c56c-6edd-4746-e294-e733883f04ad",
+		"77b22e30-198e-dbb9-0685-67995b89e75e",
+		"cf37223f-2a14-9604-994b-897ff8befb77"
 	],
 	"folders": [],
 	"timestamp": 1451861778684,
@@ -79,7 +84,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452946476547,
-			"name": "Borrar Usuario (Admin y User)",
+			"name": "Borrar Usuario (Admin y User) {idusuario}",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
@@ -149,6 +154,38 @@
 			"responses": []
 		},
 		{
+			"id": "4319c56c-6edd-4746-e294-e733883f04ad",
+			"headers": "X-Auth-Token: b423a6b2bc6511e59550001f3bc3e069\n",
+			"url": "http://localhost:8086/videostore/resources ",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "peliculaid",
+					"value": "2140E6CEBC5B11E59550001F3BC3E069",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "recursopeli",
+					"value": "https://youtu.be/AmQ0vQ2CXy4",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1452958528888,
+			"name": " Creación Resource (Admin)",
+			"description": "Creación usuario",
+			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
+			"responses": []
+		},
+		{
 			"id": "49b40a4b-0281-5c43-f77a-cbcde42b048b",
 			"headers": "",
 			"url": "http://localhost:8086/videostore/movie/search?tipo=titulo&valor=Avatar",
@@ -213,7 +250,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452946521423,
-			"name": "Borrar Alquiler de un Usuario(Admin)",
+			"name": "Borrar Alquiler de un Usuario(Admin) {idusuario}/{idpelicula}",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
@@ -232,7 +269,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452946502616,
-			"name": "Borrar Peli (Admin)",
+			"name": "Borrar Peli {idpeli} (Admin)",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
@@ -289,7 +326,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452947797391,
-			"name": "Obtener Alquiler de un Usuario(Admin)",
+			"name": "Obtener Alquiler INFO de un Usuario  {idusuario}/{idpelicula} (Admin)",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
@@ -381,6 +418,26 @@
 			"responses": []
 		},
 		{
+			"id": "77b22e30-198e-dbb9-0685-67995b89e75e",
+			"headers": "Content-Type: application/vnd.dsa.videostore.resources+json\nX-Auth-Token: ad94ff87bc6711e59550001f3bc3e069\n",
+			"url": "http://localhost:8086/videostore/resources/2140E6CEBC5B11E59550001F3BC3E069",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1452959126955,
+			"name": "Modificar Resource {idpeli} (Admin)",
+			"description": "",
+			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
+			"responses": [],
+			"rawModeData": "{\n  \"idmovie\": \"2140E6CEBC5B11E59550001F3BC3E069\",\n  \"resourcesmovie\": \"https://youtu.be/AmQ0vQ2CXy3\"\n}"
+		},
+		{
 			"id": "7b72589c-dcfe-8184-fb84-4e5945708bae",
 			"headers": "X-Auth-Token: c0644026bc3a11e59a61001f3bc3e069\n",
 			"url": "http://localhost:8086/videostore/comprar/E2A0843DBA2811E5A0AB936B5E97D97B/09EA8140BA2911E5A0AB936B5E97D97B",
@@ -394,7 +451,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452946466909,
-			"name": "Borrar Compra de un Usuario(Admin)",
+			"name": "Borrar Compra de un Usuario(Admin) {idusuario}/{idpelicula}",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
@@ -451,10 +508,30 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452946439932,
-			"name": "Compras del Usuario (Admin y User)",
+			"name": "Compras del Usuario {idusuario} (Admin y User)",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
+		},
+		{
+			"id": "8a2189f3-de6a-b37f-17c2-72be482d70e7",
+			"headers": "X-Auth-Token: c0644026bc3a11e59a61001f3bc3e069\n",
+			"url": "http://localhost:8086/videostore/movie/comprar/47ADD641BC3A11E59A61001F3BC3E069/890C93DDBC4211E59A61001F3BC3E069",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
+			"data": [],
+			"dataMode": "params",
+			"name": "Obtener Recursos de una Compra (Usuario)  {idusuario}/{idpelicula}",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1452960409959,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
 		},
 		{
 			"id": "9fcae55b-9b0f-f98b-6662-0ec3c5f51155",
@@ -470,7 +547,26 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452946426756,
-			"name": "Pedir Info Usuario (Admin y User)",
+			"name": "Pedir Info Usuario  {idusuario} (Admin y User)",
+			"description": "",
+			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
+			"responses": []
+		},
+		{
+			"id": "a93f1bce-7514-ce3e-b2d9-67fb810e649f",
+			"headers": "X-Auth-Token: 6dba6552bc6c11e59550001f3bc3e069\n",
+			"url": "http://localhost:8086/videostore/movie/alquiler/6DB73AE9BC6C11E59550001F3BC3E069/2140E6CEBC5B11E59550001F3BC3E069",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1452961942450,
+			"name": "Obtener Recursos de un Alquiler (Usuario)  {idusuario}/{idpelicula}",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
@@ -489,7 +585,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452946461237,
-			"name": "Obtener Compra de un Usuario(Admin)",
+			"name": "Obtener Compra INFO de un Usuario  {idusuario}/{idpelicula} (Admin)",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
@@ -508,7 +604,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452953768394,
-			"name": "Modificar Peli",
+			"name": "Modificar Peli {idpeli} (Admin)",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": [],
@@ -528,7 +624,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452946434835,
-			"name": "Modificar Usuario (Admin y User)",
+			"name": "Modificar Usuario  {idusuario} (Admin y User)",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": [],
@@ -586,6 +682,25 @@
 			"responses": []
 		},
 		{
+			"id": "cf37223f-2a14-9604-994b-897ff8befb77",
+			"headers": "X-Auth-Token: ad94ff87bc6711e59550001f3bc3e069\n",
+			"url": "http://localhost:8086/videostore/resources/2140E6CEBC5B11E59550001F3BC3E069",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1452958939230,
+			"name": "Borrar Resource {idpeli} (Admin)",
+			"description": "",
+			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
+			"responses": []
+		},
+		{
 			"id": "d9cf6bcd-9c02-b284-f7a3-2b263275b825",
 			"headers": "X-Auth-Token: 9c501c2bb72911e598cb001f3bc3e069\n",
 			"url": "http://localhost:8086/videostore/movie/vote/C190DDC4B72911E598CB001F3BC3E069",
@@ -606,7 +721,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452948351837,
-			"name": "+1 a pelicula (User)",
+			"name": "+1 a pelicula {idpeli} (User)",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
@@ -657,7 +772,7 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1452953771128,
-			"name": "Obtener Peli",
+			"name": "Obtener Peli {idpeli}",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": []
