@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public interface MovieDAO {
     public Movie createMovie(String title, String genre, int year, String director, String description,
-                             int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell) throws SQLException, MovieAlreadyExistsException;
+                             int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell, String recursoportada) throws SQLException, MovieAlreadyExistsException;
     public Movie getMoviebyID(String id) throws SQLException;
     public MoviesCollection getMoviesbyYEAR(int year) throws SQLException;
     public MoviesCollection getMoviesbyTITLE(String titulo) throws SQLException;
@@ -17,7 +17,7 @@ public interface MovieDAO {
     public MoviesCollection getMoviesbyVOTES() throws SQLException;
     public MoviesCollection getMoviesbyDEST() throws SQLException;
     public Movie updateMovie(String id, String title, String genre, int year, String director, String description,
-                             int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell) throws SQLException;
+                             int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell, String recursoportada) throws SQLException;
     public boolean deleteMovie(String id) throws SQLException;
 
 }

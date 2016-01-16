@@ -40,6 +40,7 @@ CREATE TABLE pelicula (
 	tiempomaximovisualizacion INTEGER NOT NULL,
 	precioalquiler INTEGER NOT NULL,
 	preciocompra INTEGER NOT NULL,
+	recursoportada VARCHAR(64) NOT NULL,
 	fechainclusion TIMESTAMP NOT NULL default current_timestamp,
 	PRIMARY KEY (id)
 );
@@ -66,6 +67,12 @@ CREATE TABLE alquiladas (
 	fechacompra TIMESTAMP NOT NULL default current_timestamp,
 	horasrestantes INTEGER NOT NULL,
 	FOREIGN KEY (usuarioid) REFERENCES usuario(id) ON DELETE CASCADE,
+	FOREIGN KEY (peliculaid) REFERENCES pelicula(id) ON DELETE CASCADE
+);
+
+CREATE TABLE recursos (
+	peliculaid BINARY(16) NOT NULL,
+	recursopeli VARCHAR(32) NOT NULL,
 	FOREIGN KEY (peliculaid) REFERENCES pelicula(id) ON DELETE CASCADE
 );
 

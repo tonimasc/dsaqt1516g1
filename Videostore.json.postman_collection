@@ -296,7 +296,7 @@
 		},
 		{
 			"id": "6d1a1d59-1042-106f-6e2b-1cff4de104a8",
-			"headers": "X-Auth-Token: ae0cffafb72111e598cb001f3bc3e069\n",
+			"headers": "X-Auth-Token: 1c8d5b4dbc5b11e59550001f3bc3e069\n",
 			"url": "http://localhost:8086/videostore/movie",
 			"preRequestScript": "",
 			"pathVariables": {},
@@ -361,6 +361,12 @@
 					"value": "12",
 					"type": "text",
 					"enabled": true
+				},
+				{
+					"key": "portada",
+					"value": "https://image.tmdb.org/t/p/w185/1LMyZOtctRqkszPYVWosK6xZ2Ht.jpg",
+					"type": "text",
+					"enabled": true
 				}
 			],
 			"dataMode": "urlencoded",
@@ -368,7 +374,7 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1452946487008,
+			"time": 1452953548080,
 			"name": "Creación Pelicula (Admin)",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
@@ -490,8 +496,8 @@
 		},
 		{
 			"id": "bf56bda0-6f63-22b5-866b-0d86988fab2a",
-			"headers": "Content-Type: application/vnd.dsa.videostore.movie+json\nX-Auth-Token: 6ab85f51b3a711e58635001f3bc3e069\n",
-			"url": "http://localhost:8086/videostore/movie/606ACF63B3A011E58635001F3BC3E069",
+			"headers": "Content-Type: application/vnd.dsa.videostore.movie+json\nX-Auth-Token: 1c8d5b4dbc5b11e59550001f3bc3e069\n",
+			"url": "http://localhost:8086/videostore/movie/2140E6CEBC5B11E59550001F3BC3E069",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "PUT",
@@ -501,12 +507,12 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1452946497500,
+			"time": 1452953768394,
 			"name": "Modificar Peli",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",
 			"responses": [],
-			"rawModeData": "{\n  \"buycost\": 0,\n  \"description\": \"A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.\",\n  \"director\": \"James Cameron\",\n  \"genre\": \"SciFI\",\n  \"id\": \"606ACF63B3A011E58635001F3BC3E069\",\n  \"maxtimeshow\": 3,\n  \"nummaxdownloads\": 3,\n  \"rentcost\": 12,\n  \"timeadded\": 1451993709000,\n  \"title\": \"Avatar\",\n  \"votes\": 0,\n  \"year\": 2012\n}"
+			"rawModeData": "{\n  \"buycost\": 0,\n  \"description\": \"A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.\",\n  \"director\": \"James Cameron\",\n  \"genre\": \"SciFI\",\n  \"id\": \"2140E6CEBC5B11E59550001F3BC3E069\",\n  \"maxtimeshow\": 3,\n  \"nummaxdownloads\": 4,\n  \"rentcost\": 12,\n  \"timeadded\": 1451993709000,\n  \"title\": \"Avatar\",\n  \"resourcecover\": \"https://image.tmdb.org/t/p/w185/1LMyZOtctRqkszPYVWosK6xZ2Ht.jpg\",\n  \"votes\": 0,\n  \"year\": 2012\n}"
 		},
 		{
 			"id": "c3bdd2bf-fdeb-96f4-dab3-1471eab9771d",
@@ -640,7 +646,7 @@
 		{
 			"id": "f957219d-a40f-a1b1-0d30-f71cd9a8ba2b",
 			"headers": "",
-			"url": "http://localhost:8086/videostore/movie/606ACF63B3A011E58635001F3BC3E069",
+			"url": "http://localhost:8086/videostore/movie/2140E6CEBC5B11E59550001F3BC3E069",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -650,7 +656,7 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1452946492125,
+			"time": 1452953771128,
 			"name": "Obtener Peli",
 			"description": "",
 			"collectionId": "04d7f2d9-b092-0d8b-044e-313e1dd39036",

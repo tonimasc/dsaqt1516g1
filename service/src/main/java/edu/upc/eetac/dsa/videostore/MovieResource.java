@@ -22,7 +22,8 @@ public class MovieResource {
     public Response createMovie(@FormParam("titulo") String titulo, @FormParam("genero") String genero,
     @FormParam("ano") int año, @FormParam("director") String director, @FormParam("descripcion") String descripcion,
     @FormParam("votos") int votos, @FormParam("numdesc") int numerodescargaspermitidas, @FormParam("tempmax") int tiempomaximovisualizacion,
-    @FormParam("palquiler") int precioalquiler, @FormParam("pcompra") int preciocompra, @Context UriInfo uriInfo)
+    @FormParam("palquiler") int precioalquiler, @FormParam("pcompra") int preciocompra, @FormParam("portada") String recursoportada,
+                                @Context UriInfo uriInfo)
             throws URISyntaxException {
 
         boolean admin = securityContext.isUserInRole("admin");
@@ -37,7 +38,7 @@ public class MovieResource {
         Movie movie = null;
         try {
             movie = movieDAO.createMovie(titulo, genero, año, director, descripcion, votos, numerodescargaspermitidas,
-                    tiempomaximovisualizacion, precioalquiler, preciocompra);
+                    tiempomaximovisualizacion, precioalquiler, preciocompra, recursoportada);
         }
         catch (SQLException e) {
             throw new InternalServerErrorException();
@@ -153,7 +154,7 @@ public class MovieResource {
         try {
             movie = movieDAO.updateMovie(id, movies.getTitle(), movies.getGenre(), movies.getYear(), movies.getDirector(),
                     movies.getDescription(), movies.getVotes(), movies.getNummaxdownloads(), movies.getMaxtimeshow(),
-                    movies.getRentcost(), movies.getBuycost());
+                    movies.getRentcost(), movies.getBuycost(), movies.getResourcecover());
             if (movie == null)
                 throw new NotFoundException("Movie with id = " + id + " doesn't exist");
         } catch (SQLException e) {
