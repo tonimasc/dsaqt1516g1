@@ -13,7 +13,7 @@ public interface OperationDAO {
     public boolean deleteBuy(String userid, String idmovie) throws SQLException;
     public boolean alreadyBuy (String userid, String idmovie) throws SQLException;
     public Rent createRent(String userid, String idmovie, int horasrestantes) throws SQLException, MovieAlreadyExistsException;
-    public Rent updateRent(String userid, String idmovie, int horasrestantes) throws SQLException;
+    public boolean updateRent(String userid, String idmovie, int horasrestantes) throws SQLException;
     public Rent getRentByIDmovieandUser(String userid, String idmovie) throws SQLException;
     public boolean deleteRent(String userid, String idmovie) throws SQLException;
     public boolean alreadyRent (String userid, String idmovie) throws SQLException;

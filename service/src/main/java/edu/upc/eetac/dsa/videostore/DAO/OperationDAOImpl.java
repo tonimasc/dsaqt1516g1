@@ -53,7 +53,7 @@ public class OperationDAOImpl implements OperationDAO {
             stmt.setString(3, idmovie);
 
             int e = stmt.executeUpdate();
-            if (e == 0){
+            if (e == 1){
                 return true;
             }
             else
@@ -75,7 +75,7 @@ public class OperationDAOImpl implements OperationDAO {
 
             stmt = connection.prepareStatement(OperationDAOQuery.DELETE_COMPRA);
             stmt.setString(1, userid);
-            stmt.setString(1, idmovie);
+            stmt.setString(2, idmovie);
 
             int rows = stmt.executeUpdate();
             return (rows == 1);
@@ -160,7 +160,7 @@ public class OperationDAOImpl implements OperationDAO {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
-            if (alreadyBuy(userid, idmovie))
+            if (alreadyRent(userid, idmovie))
                 throw new MovieAlreadyExistsException();
             connection = Database.getConnection();
 
@@ -182,13 +182,10 @@ public class OperationDAOImpl implements OperationDAO {
         return rent;
     }
     @Override
-    public Rent updateRent(String userid, String idmovie, int horasrestantes) throws SQLException{
-
-
+    public boolean updateRent(String userid, String idmovie, int horasrestantes) throws SQLException{
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
-            Rent rent = null;
             connection = Database.getConnection();
 
             stmt = connection.prepareStatement(OperationDAOQuery.UPDATE_RENT);
@@ -196,10 +193,13 @@ public class OperationDAOImpl implements OperationDAO {
             stmt.setString(2, userid);
             stmt.setString(3, idmovie);
 
-            int rows = stmt.executeUpdate();
-            if (rows == 1)
-                rent = getRentByIDmovieandUser(userid, idmovie);
-            return rent;
+            int e = stmt.executeUpdate();
+            if (e == 1){
+                return true;
+            }
+            else
+                return false;
+
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -218,7 +218,7 @@ public class OperationDAOImpl implements OperationDAO {
 
             stmt = connection.prepareStatement(OperationDAOQuery.DELETE_RENT);
             stmt.setString(1, userid);
-            stmt.setString(1, idmovie);
+            stmt.setString(2, idmovie);
 
             int rows = stmt.executeUpdate();
             return (rows == 1);

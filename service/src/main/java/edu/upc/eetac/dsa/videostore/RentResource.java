@@ -33,7 +33,7 @@ public class RentResource {
         try {
             if (!userDAO.checkBalance(iduser))
                 throw new BadRequestException("User with id = " + iduser + " insuficient founds");
-            if(operationDAO.alreadyRent(iduser, idmovie))
+            if(!operationDAO.alreadyRent(iduser, idmovie))
             {
                 //Consulto la pelicula
                 Movie movie = movieDAO.getMoviebyID(idmovie);
@@ -43,7 +43,7 @@ public class RentResource {
                 rent = operationDAO.createRent(iduser, idmovie, movie.getMaxtimeshow());
             }
             else
-                throw new BadRequestException("Movie with id = " + idmovie + " already buyed");
+                throw new BadRequestException("Movie with id = " + idmovie + " already rent");
 
             return rent;
 
@@ -51,7 +51,7 @@ public class RentResource {
             throw new InternalServerErrorException();
         }
         catch (MovieAlreadyExistsException e){
-            throw new InternalServerErrorException();
+            throw new BadRequestException("Movie with id = " + idmovie + " already rent");
         }
     }
 
@@ -69,18 +69,20 @@ public class RentResource {
         try{
             Rent rent = null;
             OperationDAO operationDAO = new OperationDAOImpl();
-            rent = operationDAO.updateRent(iduser, idmovie, hres);
-            if(rent == null)
+            boolean update = operationDAO.updateRent(iduser, idmovie, hres);
+            if(!update)
                 throw new InternalServerErrorException();
+            rent = operationDAO.getRentByIDmovieandUser(iduser,idmovie);
             return rent;
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
     }
 
+    @Path("/{idusuario}/{idmovie}")
     @DELETE
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void deleteBuy(@FormParam("idusuario") String iduser, @FormParam("idmovie") String idmovie){
+    public void deleteBuy(@PathParam("idusuario") String iduser, @PathParam("idmovie") String idmovie){
         if(iduser == null || idmovie == null)
             throw new BadRequestException("all parameters are mandatory");
 
@@ -89,8 +91,9 @@ public class RentResource {
             boolean admin = securityContext.isUserInRole("admin");
             if (admin)
             {
-                if(!operationDAO.deleteRent(iduser, idmovie))
-                    throw new NotFoundException("Buy doesn't exist");;
+                boolean estado = operationDAO.deleteRent(iduser, idmovie);
+                if(!estado)
+                    throw new NotFoundException("Rent doesn't exist");
             }
             else
                 throw new ForbiddenException("operation not allowed");
@@ -116,7 +119,7 @@ public class RentResource {
             OperationDAO operationDAO = new OperationDAOImpl();
             rent = operationDAO.getRentByIDmovieandUser(iduser, idmovie);
             if(rent == null)
-                throw new InternalServerErrorException();
+                throw new NotFoundException("Rent doesn't exist");
             return rent;
         } catch (SQLException e) {
             throw new InternalServerErrorException();

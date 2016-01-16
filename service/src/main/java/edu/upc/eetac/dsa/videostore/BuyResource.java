@@ -32,7 +32,7 @@ public class BuyResource {
         Buys buys;
         try {
             if (!userDAO.checkBalance(iduser))
-                throw new BadRequestException("User with id = " + iduser + " insuficient founds");
+                throw new BadRequestException("User with id = " + iduser + " insufficient founds");
             if(!operationDAO.alreadyBuy(iduser, idmovie))
             {
                 //Consulto la pelicula
@@ -43,7 +43,7 @@ public class BuyResource {
                 buys = operationDAO.createBuy(iduser, idmovie, movie.getNummaxdownloads());
             }
             else
-                throw new BadRequestException("Movie with id = " + idmovie + " already buyed");
+                throw new BadRequestException("Movie with id = " + idmovie + " already bought");
 
             return buys;
 
@@ -79,10 +79,10 @@ public class BuyResource {
         }
 
     }
-
+    @Path("/{idusuario}/{idmovie}")
     @DELETE
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void deleteBuy(@FormParam("idusuario") String iduser, @FormParam("idmovie") String idmovie){
+    public void deleteBuy(@PathParam("idusuario") String iduser, @PathParam("idmovie") String idmovie){
         if(iduser == null || idmovie == null)
             throw new BadRequestException("all parameters are mandatory");
 
@@ -91,8 +91,9 @@ public class BuyResource {
             boolean admin = securityContext.isUserInRole("admin");
             if (admin)
             {
-                if(!operationDAO.deleteBuy(iduser, idmovie))
-                    throw new NotFoundException("Buy doesn't exist");;
+                boolean estado = operationDAO.deleteBuy(iduser, idmovie);
+                if(!estado)
+                    throw new NotFoundException("Buy doesn't exist");
             }
             else
                 throw new ForbiddenException("operation not allowed");
@@ -118,7 +119,7 @@ public class BuyResource {
             OperationDAO operationDAO = new OperationDAOImpl();
             buys = operationDAO.getBuyByIDmovieandUser(iduser, idmovie);
             if(buys == null)
-                throw new InternalServerErrorException();
+                throw new NotFoundException("Buy doesn't exist");
             return buys;
         } catch (SQLException e) {
             throw new InternalServerErrorException();
