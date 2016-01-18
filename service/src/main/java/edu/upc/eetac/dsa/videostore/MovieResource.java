@@ -2,10 +2,11 @@ package edu.upc.eetac.dsa.videostore;
 
 
 import edu.upc.eetac.dsa.videostore.DAO.*;
+import edu.upc.eetac.dsa.videostore.entity.Buys;
 import edu.upc.eetac.dsa.videostore.entity.Movie;
 import edu.upc.eetac.dsa.videostore.entity.MoviesCollection;
+import edu.upc.eetac.dsa.videostore.entity.Resources;
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -23,7 +24,8 @@ public class MovieResource {
     public Response createMovie(@FormParam("titulo") String titulo, @FormParam("genero") String genero,
     @FormParam("ano") int año, @FormParam("director") String director, @FormParam("descripcion") String descripcion,
     @FormParam("votos") int votos, @FormParam("numdesc") int numerodescargaspermitidas, @FormParam("tempmax") int tiempomaximovisualizacion,
-    @FormParam("palquiler") int precioalquiler, @FormParam("pcompra") int preciocompra, @Context UriInfo uriInfo)
+    @FormParam("palquiler") int precioalquiler, @FormParam("pcompra") int preciocompra, @FormParam("portada") String recursoportada,
+                                @Context UriInfo uriInfo)
             throws URISyntaxException {
 
         boolean admin = securityContext.isUserInRole("admin");
@@ -38,7 +40,7 @@ public class MovieResource {
         Movie movie = null;
         try {
             movie = movieDAO.createMovie(titulo, genero, año, director, descripcion, votos, numerodescargaspermitidas,
-                    tiempomaximovisualizacion, precioalquiler, preciocompra);
+                    tiempomaximovisualizacion, precioalquiler, preciocompra, recursoportada);
         }
         catch (SQLException e) {
             throw new InternalServerErrorException();
@@ -105,6 +107,15 @@ public class MovieResource {
                     throw new InternalServerErrorException();
                 }
                 break;
+            case "destacadas":
+                try {
+                    mCollection = mDAO.getMoviesbyDEST();
+                }
+                catch(SQLException e)
+                {
+                    throw new InternalServerErrorException();
+                }
+                break;
         }
 
         return mCollection;
@@ -127,24 +138,80 @@ public class MovieResource {
         return movie;
     }
 
+    @Path("/compra/{idusuario}/{idmovie}")
+    @GET
+    @Produces(VideostoreMediaType.VIDEOSTORE_MOVIE)
+    public Resources getMovieResourceBuy(@PathParam("idusuario") String iduser, @PathParam("idmovie") String idmovie, @Context Request request) {
+        OperationDAO operationDAO = new OperationDAOImpl();
+        ResourcesDAO resourcesDAO = new ResourcesDAOImpl();
+        Resources resources;
+        Buys buys = new Buys();
+
+        String userid = securityContext.getUserPrincipal().getName();
+        if(!userid.equals(iduser))
+            throw new ForbiddenException("operation not allowed");
+
+        try {
+            boolean comprado = operationDAO.alreadyBuy(iduser,idmovie);
+            if (comprado)
+            {
+                resources = resourcesDAO.getResource(idmovie);
+                buys = operationDAO.getBuyByIDmovieandUser(iduser,idmovie);
+                int restante = buys.getDowmloadedtimes() - 1;
+                operationDAO.updateBuy(buys.getUserid(), buys.getMovieid(), restante);
+            }
+            else
+                throw new ForbiddenException("operation not allowed");
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return resources;
+    }
+    @Path("/alquiler/{idusuario}/{idmovie}")
+    @GET
+    @Produces(VideostoreMediaType.VIDEOSTORE_MOVIE)
+    public Resources getMovieResourceRent(@PathParam("idusuario") String iduser, @PathParam("idmovie") String idmovie, @Context Request request) {
+        OperationDAO operationDAO = new OperationDAOImpl();
+        ResourcesDAO resourcesDAO = new ResourcesDAOImpl();
+        Resources resources;
+
+        String userid = securityContext.getUserPrincipal().getName();
+        if(!userid.equals(iduser))
+            throw new ForbiddenException("operation not allowed");
+
+        try {
+            boolean alquilado = operationDAO.alreadyRent(iduser,idmovie);
+            if (alquilado)
+            {
+                resources = resourcesDAO.getResource(idmovie);
+            }
+            else
+                throw new ForbiddenException("operation not allowed");
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return resources;
+    }
+
     @Path("/{id}")
     @PUT
     @Consumes(VideostoreMediaType.VIDEOSTORE_MOVIE)
     @Produces(VideostoreMediaType.VIDEOSTORE_MOVIE)
-    public Movie updateMovie(@PathParam("id") String id, Movie movie) {
-        if (movie == null)
+    public Movie updateMovie(@PathParam("id") String id, Movie movies) {
+        if (movies == null)
             throw new BadRequestException("entity is null");
-        if (!id.equals(movie.getId()))
+        if (!id.equals(movies.getId()))
             throw new BadRequestException("path parameter id and entity parameter id doesn't match");
 
         boolean admin = securityContext.isUserInRole("admin");
         if(!admin)
             throw new ForbiddenException("operation not allowed");
         MovieDAO movieDAO = new MovieDAOImpl();
+        Movie movie = null;
         try {
-            movie = movieDAO.updateMovie(id, movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getDirector(),
-                    movie.getDescription(), movie.getVotes(), movie.getNummaxdownloads(), movie.getMaxtimeshow(),
-                    movie.getRentcost(), movie.getBuycost());
+            movie = movieDAO.updateMovie(id, movies.getTitle(), movies.getGenre(), movies.getYear(), movies.getDirector(),
+                    movies.getDescription(), movies.getVotes(), movies.getNummaxdownloads(), movies.getMaxtimeshow(),
+                    movies.getRentcost(), movies.getBuycost(), movies.getResourcecover());
             if (movie == null)
                 throw new NotFoundException("Movie with id = " + id + " doesn't exist");
         } catch (SQLException e) {

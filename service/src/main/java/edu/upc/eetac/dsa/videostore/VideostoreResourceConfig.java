@@ -1,5 +1,6 @@
 package edu.upc.eetac.dsa.videostore;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
@@ -11,6 +12,7 @@ public class VideostoreResourceConfig extends ResourceConfig {
         packages("edu.upc.eetac.dsa.videostore.auth");
         packages("edu.upc.eetac.dsa.beeter.cors");
         register(RolesAllowedDynamicFeature.class);
+        register(JacksonFeature.class);
         //register(DeclarativeLinkingFeature.class);
 
     }

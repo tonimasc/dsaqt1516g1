@@ -11,7 +11,7 @@ public class MovieDAOImpl implements MovieDAO {
 
     @Override
     public Movie createMovie(String title, String genre, int year, String director, String description,
-                             int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell)
+                             int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell, String recursoportada)
             throws SQLException, MovieAlreadyExistsException {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -37,6 +37,7 @@ public class MovieDAOImpl implements MovieDAO {
             stmt.setInt(9, temmaxvisual);
             stmt.setInt(10, pricerent);
             stmt.setInt(11, pricesell);
+            stmt.setString(12, recursoportada);
             //el fechainclusion se inserta por propia database: current timestamp
             stmt.executeUpdate();
 
@@ -77,7 +78,8 @@ public class MovieDAOImpl implements MovieDAO {
                 movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
                 movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
                 movie.setRentcost(rs.getInt("precioalquiler"));
-                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setBuycost(rs.getInt("preciocompra"));
+                movie.setResourcecover(rs.getString("recursoportada"));
                 movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
             }
         } catch (SQLException e) {
@@ -114,7 +116,8 @@ public class MovieDAOImpl implements MovieDAO {
                 movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
                 movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
                 movie.setRentcost(rs.getInt("precioalquiler"));
-                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setBuycost(rs.getInt("preciocompra"));
+                movie.setResourcecover(rs.getString("recursoportada"));
                 movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
 
                 moviesCollection.getMoviesList().add(movie);
@@ -154,7 +157,8 @@ public class MovieDAOImpl implements MovieDAO {
                 movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
                 movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
                 movie.setRentcost(rs.getInt("precioalquiler"));
-                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setBuycost(rs.getInt("preciocompra"));
+                movie.setResourcecover(rs.getString("recursoportada"));
                 movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
 
                 moviesCollection.getMoviesList().add(movie);
@@ -194,7 +198,8 @@ public class MovieDAOImpl implements MovieDAO {
                 movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
                 movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
                 movie.setRentcost(rs.getInt("precioalquiler"));
-                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setBuycost(rs.getInt("preciocompra"));
+                movie.setResourcecover(rs.getString("recursoportada"));
                 movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
 
                 moviesCollection.getMoviesList().add(movie);
@@ -232,7 +237,8 @@ public class MovieDAOImpl implements MovieDAO {
                 movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
                 movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
                 movie.setRentcost(rs.getInt("precioalquiler"));
-                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setBuycost(rs.getInt("preciocompra"));
+                movie.setResourcecover(rs.getString("recursoportada"));
                 movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
 
                 moviesCollection.getMoviesList().add(movie);
@@ -270,7 +276,47 @@ public class MovieDAOImpl implements MovieDAO {
                 movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
                 movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
                 movie.setRentcost(rs.getInt("precioalquiler"));
-                movie.setRentcost(rs.getInt("preciocompra"));
+                movie.setBuycost(rs.getInt("preciocompra"));
+                movie.setResourcecover(rs.getString("recursoportada"));
+                movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
+
+                moviesCollection.getMoviesList().add(movie);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return moviesCollection;
+    }
+
+    @Override
+    public MoviesCollection getMoviesbyDEST() throws SQLException {
+        MoviesCollection moviesCollection = new MoviesCollection();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(MovieDAOQuery.GET_MOVIES_BY_DEST);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getString("id"));
+                movie.setTitle(rs.getString("titulo"));
+                movie.setGenre(rs.getString("genero"));
+                movie.setYear(rs.getInt("ano"));
+                movie.setDirector(rs.getString("director"));
+                movie.setDescription(rs.getString("descripcion"));
+                movie.setVotes(rs.getInt("votos"));
+                movie.setNummaxdownloads(rs.getInt("numdescargaspermitidas"));
+                movie.setMaxtimeshow(rs.getInt("tiempomaximovisualizacion"));
+                movie.setRentcost(rs.getInt("precioalquiler"));
+                movie.setBuycost(rs.getInt("preciocompra"));
+                movie.setResourcecover(rs.getString("recursoportada"));
                 movie.setTimeadded(rs.getTimestamp("fechainclusion").getTime());
 
                 moviesCollection.getMoviesList().add(movie);
@@ -287,7 +333,7 @@ public class MovieDAOImpl implements MovieDAO {
 
     @Override
     public Movie updateMovie(String id, String title, String genre, int year, String director, String description,
-                             int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell) throws SQLException {
+                             int votos, int numdownloads, int temmaxvisual, int pricerent, int pricesell, String recursoportada) throws SQLException {
         Movie movie = null;
 
         Connection connection = null;
@@ -307,7 +353,8 @@ public class MovieDAOImpl implements MovieDAO {
             stmt.setInt(8, temmaxvisual);
             stmt.setInt(9, pricerent);
             stmt.setInt(10, pricesell);
-            stmt.setString(11, id);
+            stmt.setString(11, recursoportada);
+            stmt.setString(12, id);
             stmt.executeUpdate();
 
             int rows = stmt.executeUpdate();

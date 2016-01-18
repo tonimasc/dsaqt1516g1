@@ -21,6 +21,7 @@ public class Movie {
     private int maxtimeshow;
     private int rentcost;
     private int buycost;
+    private String resourcecover;
     private long timeadded;
 
     public List<Link> getLinks() {
@@ -117,6 +118,14 @@ public class Movie {
 
     public void setBuycost(int buycost) {
         this.buycost = buycost;
+    }
+
+    public String getResourcecover() {
+        return resourcecover;
+    }
+
+    public void setResourcecover(String resourcecover) {
+        this.resourcecover = resourcecover;
     }
 
     public long getTimeadded() {
